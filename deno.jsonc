@@ -1,0 +1,17 @@
+{
+  "tasks": {
+    "main": "deno run --allow-net --allow-read --allow-write --unstable main.ts"
+  },
+  "unstable": [
+    "byonm",
+    "net",
+    "fs"
+  ],
+  "fmt": {
+    "lineWidth": 120,
+    "singleQuote": true,
+    "indentWidth": 2,
+    "useTabs": false,
+    "semiColons": true
+  }
+}

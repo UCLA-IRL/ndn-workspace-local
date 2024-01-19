@@ -1,0 +1,17 @@
+{
+  "editor.defaultFormatter": "denoland.vscode-deno",
+  "editor.formatOnPaste": true,
+  "editor.formatOnSave": true,
+  "[markdown]": {
+    "editor.defaultFormatter": "vscode.markdown-language-features"
+  },
+  "[typescript]": {
+    "editor.defaultFormatter": "denoland.vscode-deno"
+  },
+  "deno.enable": true,
+  "deno.lint": true,
+  "deno.unstable": true,
+  "[jsonc]": {
+    "editor.defaultFormatter": "vscode.json-language-features"
+  }
+}
