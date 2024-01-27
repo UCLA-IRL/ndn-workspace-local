@@ -1,6 +1,6 @@
 import { DenoKvStorage } from '@ucla-irl/ndnts-aux/storage';
 import { Workspace } from '@ucla-irl/ndnts-aux/workspace';
-import { base64ToBytes } from '@ucla-irl/ndnts-aux/utils';
+import { AsyncDisposableStack, base64ToBytes } from '@ucla-irl/ndnts-aux/utils';
 import { CertStorage } from '@ucla-irl/ndnts-aux/security';
 import { Endpoint } from '@ndn/endpoint';
 import { Decoder } from '@ndn/tlv';
@@ -58,14 +58,18 @@ const DEBUG = false;
 const main = async () => {
   if (DEBUG) FwTracer.enable();
 
+  await using closers = new AsyncDisposableStack();
+
   const trustAnchor = decodeCert(TRUST_ANCHOR);
   const { cert, prvKey } = await decodeSafebag(SAFEBAG, '123456');
 
   const endpoint = new Endpoint();
   const storage = await DenoKvStorage.create('./data/kv-store');
+  closers.use(storage);
   const certStore = new CertStorage(trustAnchor, cert, storage, endpoint, prvKey);
 
   const face = await UnixTransport.createFace({ l3: { local: true } }, '/run/nfd/nfd.sock');
+  closers.defer(() => face.close());
   // Not working. Registered wrong profixes (.../test/sync/alo)
   // enableNfdPrefixReg(face, {
   //   signer: digestSigning,
@@ -109,6 +113,7 @@ const main = async () => {
     signer: certStore.signer,
     verifier: certStore.verifier,
   });
+  closers.defer(() => workspace.destroy());
 
   const exitSignal = new Promise<void>((resolve) => {
     Deno.addSignalListener('SIGINT', () => {
@@ -117,11 +122,6 @@ const main = async () => {
     });
   });
   await exitSignal;
-
-  workspace.destroy();
-  face.close();
-  // storage.close();  // Already did it in workspace. Need to be fixed.
-  Deno.exit();
 };
 
 if (import.meta.main) {

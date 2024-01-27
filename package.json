@@ -4,10 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "deno test",
     "format": "deno fmt",
-    "lint": "deno lint",
-    "build": "deno run -A ./build.ts"
+    "lint": "deno lint"
   },
   "keywords": [],
   "author": "",
@@ -23,10 +21,10 @@
     "@ndn/node-transport": "https://ndnts-nightly.ndn.today/node-transport.tgz",
     "@ndn/packet": "https://ndnts-nightly.ndn.today/packet.tgz",
     "@ndn/segmented-object": "https://ndnts-nightly.ndn.today/segmented-object.tgz",
-    "@ndn/sync": "0.0.20240118-nightly-40058b1",
+    "@ndn/sync": "https://ndnts-nightly.ndn.today/sync.tgz",
     "@ndn/tlv": "https://ndnts-nightly.ndn.today/tlv.tgz",
     "@ndn/ws-transport": "https://ndnts-nightly.ndn.today/ws-transport.tgz",
-    "@ucla-irl/ndnts-aux": "^1.0.5",
-    "yjs": "^13.6.10"
+    "@ucla-irl/ndnts-aux": "^1.0.10",
+    "yjs": "^13.6.11"
   }
 }

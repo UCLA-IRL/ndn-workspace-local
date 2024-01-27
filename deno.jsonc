@@ -1,6 +1,6 @@
 {
   "tasks": {
-    "main": "deno run --allow-net --allow-read --allow-write --unstable main.ts"
+    "main": "deno run --allow-net --allow-read --allow-write --unstable-kv main.ts"
   },
   "unstable": [
     "byonm",
