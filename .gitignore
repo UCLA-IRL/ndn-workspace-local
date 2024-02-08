@@ -18,6 +18,7 @@ dev-dist
 *.njsproj
 *.sln
 *.sw?
+.env
 
 # Firebase
 .firebase/

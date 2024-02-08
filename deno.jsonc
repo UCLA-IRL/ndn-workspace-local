@@ -1,6 +1,8 @@
 {
   "tasks": {
-    "main": "deno run --allow-net --allow-read --allow-write --unstable-kv main.ts"
+    "main": "deno run --allow-net --allow-read --allow-write --unstable-kv main.ts",
+    "sync_test": "deno run --allow-net --allow-read --allow-env sync_test.ts",
+    "gen-selfsign": "deno run gen-selfsign.ts"
   },
   "unstable": [
     "byonm",
