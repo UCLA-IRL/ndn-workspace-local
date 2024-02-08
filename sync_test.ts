@@ -15,6 +15,11 @@ import { FwTracer } from '@ndn/fw';
 import { fchQuery } from '@ndn/autoconfig';
 import * as Y from 'yjs';
 
+// Global configurations
+const DEBUG = false;
+const UPDATE_INTERVAL = [300, 1000];
+const MAX_SEQUENCE = 400;
+
 const decodeCert = (b64Value: string) => {
   const wire = base64ToBytes(b64Value);
   const data = Decoder.decode(wire, Data);
@@ -114,6 +119,7 @@ type ItemType = {
   nodeId: string;
   timestamp: number;
   seq: number;
+  delta?: number;
 };
 
 const main = async () => {
@@ -177,6 +183,7 @@ const main = async () => {
   };
 
   // Observe log
+  const logRecords = [] as Array<ItemType>;
   arr.observe((event) => {
     for (const item of event.changes.added) {
       const val = JSON.parse(item.content.getContent()[0]) as ItemType;
@@ -185,35 +192,51 @@ const main = async () => {
         continue;
       }
       const timeNow = Date.now();
-      console.log(`[${nodeId} : ${seq}] Delta: ${timeNow - timestamp} ms`);
+      const delta = timeNow - timestamp;
+      console.log(`[${nodeId} : ${seq}] Delta: ${delta} ms`);
+      logRecords.push({ ...val, delta });
     }
   });
 
   // Exit signal
   let stop = false;
-  const exitSignal = new Promise<void>((resolve) => {
-    Deno.addSignalListener('SIGINT', () => {
-      console.log('\nStopped by Ctrl+C');
-      stop = true;
-      resolve();
-    });
+  const { promise: exitSignal, resolve: exitResolve } = Promise.withResolvers<void>();
+  Deno.addSignalListener('SIGINT', () => {
+    console.log('\nStopped by Ctrl+C');
+    stop = true;
+    exitResolve();
   });
 
   // Random push
   const runner = (async () => {
+    const [lower, upper] = UPDATE_INTERVAL;
     while (!stop) {
       push();
-      const intervalMs = randomUint() % 3000 + 1000; // 1--4 sec
+      if (MAX_SEQUENCE > 0 && seqNum >= MAX_SEQUENCE) {
+        break;
+      }
+      const intervalMs = randomUint() % (upper - lower) + lower;
       await Promise.any([sleep(intervalMs / 1000), exitSignal]);
     }
   })();
 
   // Await close
-  await exitSignal;
   await runner;
-};
+  if (!stop) {
+    const timer = setTimeout(() => {
+      exitResolve(); // Assume all sequences are received at this time
+    }, 1500);
+    await exitSignal;
+    clearTimeout(timer);
+  }
 
-const DEBUG = false;
+  // Write csv file
+  using file = await Deno.create(`./logs/${nodeIdStr}.csv`);
+  await file.write(new TextEncoder().encode('id,seq,delay\n'));
+  for (const item of logRecords) {
+    await file.write(new TextEncoder().encode(`${item.nodeId},${item.seq},${item.delta}\n`));
+  }
+};
 
 if (import.meta.main) {
   await loadDotenv({ export: true });

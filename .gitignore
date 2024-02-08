@@ -26,3 +26,4 @@ dev-dist
 # TEMP
 temp/
 data/
+logs/
