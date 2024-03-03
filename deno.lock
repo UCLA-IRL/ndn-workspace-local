@@ -10,8 +10,8 @@
   "workspace": {
     "packageJson": {
       "dependencies": [
-        "npm:@ucla-irl/ndnts-aux@^1.0.11",
-        "npm:yjs@^13.6.11"
+        "npm:@ucla-irl/ndnts-aux@^1.1.2",
+        "npm:yjs@^13.6.14"
       ]
     }
   }
