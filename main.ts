@@ -2,14 +2,13 @@ import { DenoKvStorage } from '@ucla-irl/ndnts-aux/storage';
 import { Workspace } from '@ucla-irl/ndnts-aux/workspace';
 import { AsyncDisposableStack, base64ToBytes } from '@ucla-irl/ndnts-aux/utils';
 import { CertStorage } from '@ucla-irl/ndnts-aux/security';
-import { Endpoint } from '@ndn/endpoint';
 import { Decoder } from '@ndn/tlv';
 import { Data, digestSigning, Name } from '@ndn/packet';
 import { Certificate } from '@ndn/keychain';
 import { SafeBag } from '@ndn/ndnsec';
 import { UnixTransport } from '@ndn/node-transport';
 import * as nfdmgmt from '@ndn/nfdmgmt';
-import { FwTracer } from '@ndn/fw';
+import { Forwarder, FwTracer } from '@ndn/fw';
 import * as Y from 'yjs';
 
 const TRUST_ANCHOR = `
@@ -63,10 +62,10 @@ const main = async () => {
   const trustAnchor = decodeCert(TRUST_ANCHOR);
   const { cert, prvKey } = await decodeSafebag(SAFEBAG, '123456');
 
-  const endpoint = new Endpoint();
+  const fw = Forwarder.getDefault();
   const storage = await DenoKvStorage.create('./data/kv-store');
   closers.use(storage);
-  const certStore = new CertStorage(trustAnchor, cert, storage, endpoint, prvKey);
+  const certStore = new CertStorage(trustAnchor, cert, storage, fw, prvKey);
 
   const face = await UnixTransport.createFace({ l3: { local: true } }, '/run/nfd/nfd.sock');
   closers.defer(() => face.close());
@@ -81,7 +80,7 @@ const main = async () => {
     cost: 0,
     flags: 0x02, // CAPTURE
   }, {
-    endpoint: endpoint,
+    cOpts: { fw },
     prefix: nfdmgmt.localhostPrefix,
     signer: digestSigning,
   });
@@ -95,7 +94,7 @@ const main = async () => {
     cost: 0,
     flags: 0x02, // CAPTURE
   }, {
-    endpoint: endpoint,
+    cOpts: { fw },
     prefix: nfdmgmt.localhostPrefix,
     signer: digestSigning,
   });
@@ -108,7 +107,7 @@ const main = async () => {
   const workspace = await Workspace.create({
     nodeId: new Name('/ndn-workspace/test/node-2'),
     persistStore: storage,
-    endpoint,
+    fw,
     rootDoc: new Y.Doc(),
     signer: certStore.signer,
     verifier: certStore.verifier,

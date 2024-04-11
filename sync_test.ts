@@ -4,14 +4,13 @@ import { InMemoryStorage } from '@ucla-irl/ndnts-aux/storage';
 import { Workspace } from '@ucla-irl/ndnts-aux/workspace';
 import { AsyncDisposableStack, base64ToBytes } from '@ucla-irl/ndnts-aux/utils';
 import { CertStorage } from '@ucla-irl/ndnts-aux/security';
-import { Endpoint } from '@ndn/endpoint';
 import { Decoder } from '@ndn/tlv';
 import { Component, Data, Name, ValidityPeriod } from '@ndn/packet';
 import { Certificate, CertNaming, createSigner, createVerifier, ECDSA } from '@ndn/keychain';
 import { WsTransport } from '@ndn/ws-transport';
 import { Signer } from '@ndn/packet';
 import * as nfdmgmt from '@ndn/nfdmgmt';
-import { FwTracer } from '@ndn/fw';
+import { Forwarder, FwTracer } from '@ndn/fw';
 import { fchQuery } from '@ndn/autoconfig';
 import * as Y from 'yjs';
 
@@ -83,7 +82,7 @@ const doFch = async () => {
   }
 };
 
-const registerPrefixes = async (endpoint: Endpoint, workspaceName: Name, nodeId: Name, signer: Signer) => {
+const registerPrefixes = async (fw: Forwarder, workspaceName: Name, nodeId: Name, signer: Signer) => {
   // Register prefixes
   const cr = await nfdmgmt.invoke('rib/register', {
     name: workspaceName,
@@ -91,7 +90,7 @@ const registerPrefixes = async (endpoint: Endpoint, workspaceName: Name, nodeId:
     cost: 0,
     flags: 0x02, // CAPTURE
   }, {
-    endpoint: endpoint,
+    cOpts: { fw },
     prefix: nfdmgmt.localhopPrefix,
     signer: signer,
   });
@@ -105,7 +104,7 @@ const registerPrefixes = async (endpoint: Endpoint, workspaceName: Name, nodeId:
     cost: 0,
     flags: 0x02, // CAPTURE
   }, {
-    endpoint: endpoint,
+    cOpts: { fw },
     prefix: nfdmgmt.localhopPrefix,
     signer: signer,
   });
@@ -142,26 +141,26 @@ const main = async () => {
   console.log(`My Cert: ${myCert.name.toString()} \n  Period: ${myCert.validity.toString()}`);
 
   // Connect to testbed
-  const endpoint = new Endpoint();
+  const fw = Forwarder.getDefault();
   const host = await doFch();
   const wsUrl = `wss://${host}/ws/`;
-  const wsFace = await WsTransport.createFace({ l3: { local: false }, fw: endpoint.fw }, wsUrl);
+  const wsFace = await WsTransport.createFace({ l3: { local: false }, fw }, wsUrl);
   closers.defer(() => wsFace.close());
 
   // Create workspace
   const storage = new InMemoryStorage();
   closers.use(storage);
-  const certStore = new CertStorage(caCert, myCert, storage, endpoint, new Uint8Array(myKeyBits));
+  const certStore = new CertStorage(caCert, myCert, storage, fw, new Uint8Array(myKeyBits));
 
   // Register prefixes
-  await registerPrefixes(endpoint, workspaceName, nodeId, testbedSigner);
+  await registerPrefixes(fw, workspaceName, nodeId, testbedSigner);
 
   // Run workspace
   const rootDoc = new Y.Doc();
   const workspace = await Workspace.create({
     nodeId: nodeId,
     persistStore: storage,
-    endpoint,
+    fw,
     rootDoc: rootDoc,
     signer: certStore.signer,
     verifier: certStore.verifier,

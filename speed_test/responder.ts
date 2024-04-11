@@ -1,7 +1,7 @@
-import { Endpoint } from '@ndn/endpoint';
+import { produce } from '@ndn/endpoint';
 import { SvSync } from '@ndn/svs';
 import { Data, digestSigning, Interest, Name } from '@ndn/packet';
-import { FwTracer } from '@ndn/fw';
+import { Forwarder, FwTracer } from '@ndn/fw';
 import { UnixTransport } from '@ndn/node-transport';
 import { SequenceNum } from '@ndn/naming-convention2';
 import * as nfdmgmt from '@ndn/nfdmgmt';
@@ -12,7 +12,7 @@ const DEBUG = false;
 const MAX_SEQUENCE = 100;
 const WORKSPACE_NAME = new Name('/ndn-test/workspace');
 
-const registerPrefixes = async (endpoint: Endpoint, workspaceName: Name, nodeId: Name) => {
+const registerPrefixes = async (fw: Forwarder, workspaceName: Name, nodeId: Name) => {
   // Register prefixes
   const cr = await nfdmgmt.invoke('rib/register', {
     name: workspaceName,
@@ -20,7 +20,7 @@ const registerPrefixes = async (endpoint: Endpoint, workspaceName: Name, nodeId:
     cost: 0,
     flags: 0x02, // CAPTURE
   }, {
-    endpoint: endpoint,
+    cOpts: { fw },
     prefix: nfdmgmt.localhostPrefix,
     signer: digestSigning,
   });
@@ -34,7 +34,7 @@ const registerPrefixes = async (endpoint: Endpoint, workspaceName: Name, nodeId:
     cost: 0,
     flags: 0x02, // CAPTURE
   }, {
-    endpoint: endpoint,
+    cOpts: { fw },
     prefix: nfdmgmt.localhostPrefix,
     signer: digestSigning,
   });
@@ -48,18 +48,18 @@ const main = async () => {
   await using closers = new AsyncDisposableStack();
 
   // Connect to local NFD
-  const endpoint = new Endpoint();
+  const fw = Forwarder.getDefault();
   const face = await UnixTransport.createFace({ l3: { local: true } }, '/run/nfd/nfd.sock');
   closers.defer(() => face.close());
 
   // Register prefixes
   const nodeId = WORKSPACE_NAME.append('node-p');
-  await registerPrefixes(endpoint, WORKSPACE_NAME, nodeId);
+  await registerPrefixes(fw, WORKSPACE_NAME, nodeId);
 
   // Create responder
   let baseTime: number;
   const dataNamePrefix = nodeId.append('32=sync', '32=alo');
-  const producer = endpoint.produce(
+  const producer = produce(
     dataNamePrefix,
     async (interest: Interest) => {
       await undefined;

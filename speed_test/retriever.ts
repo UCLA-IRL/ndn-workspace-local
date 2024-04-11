@@ -1,9 +1,8 @@
-import { Endpoint } from '@ndn/endpoint';
 import { digestSigning, Name } from '@ndn/packet';
 import { FwTracer } from '@ndn/fw';
 import { UnixTransport } from '@ndn/node-transport';
-import { SequenceNum } from '@ndn/naming-convention2';
 import * as nfdmgmt from '@ndn/nfdmgmt';
+import { Forwarder } from '@ndn/fw';
 import { AsyncDisposableStack } from '@ucla-irl/ndnts-aux/utils';
 import { InMemoryStorage } from '@ucla-irl/ndnts-aux/storage';
 import { AtLeastOnceDelivery } from '@ucla-irl/ndnts-aux/sync-agent';
@@ -13,7 +12,7 @@ const DEBUG = false;
 // const MAX_SEQUENCE = 100;
 const WORKSPACE_NAME = new Name('/ndn-test/workspace');
 
-const registerPrefixes = async (endpoint: Endpoint, workspaceName: Name, nodeId: Name) => {
+const registerPrefixes = async (fw: Forwarder, workspaceName: Name, nodeId: Name) => {
   // Register prefixes
   const cr = await nfdmgmt.invoke('rib/register', {
     name: workspaceName,
@@ -21,7 +20,7 @@ const registerPrefixes = async (endpoint: Endpoint, workspaceName: Name, nodeId:
     cost: 0,
     flags: 0x02, // CAPTURE
   }, {
-    endpoint: endpoint,
+    cOpts: { fw },
     prefix: nfdmgmt.localhostPrefix,
     signer: digestSigning,
   });
@@ -35,7 +34,7 @@ const registerPrefixes = async (endpoint: Endpoint, workspaceName: Name, nodeId:
     cost: 0,
     flags: 0x02, // CAPTURE
   }, {
-    endpoint: endpoint,
+    cOpts: { fw },
     prefix: nfdmgmt.localhostPrefix,
     signer: digestSigning,
   });
@@ -49,13 +48,13 @@ const main = async () => {
   await using closers = new AsyncDisposableStack();
 
   // Connect to local NFD
-  const endpoint = new Endpoint();
+  const fw = Forwarder.getDefault();
   const face = await UnixTransport.createFace({ l3: { local: true } }, '/run/nfd/nfd.sock');
   closers.defer(() => face.close());
 
   // Register prefixes
   const nodeId = WORKSPACE_NAME.append('node-r');
-  await registerPrefixes(endpoint, WORKSPACE_NAME, nodeId);
+  await registerPrefixes(fw, WORKSPACE_NAME, nodeId);
 
   // Exiter
   const { resolve: exitResolve, promise: exitSignal } = Promise.withResolvers<void>();
@@ -66,7 +65,7 @@ const main = async () => {
   closers.use(storage);
   const alo = await AtLeastOnceDelivery.create(
     nodeId,
-    endpoint,
+    fw,
     WORKSPACE_NAME.append('32=sync', '32=alo'),
     digestSigning,
     digestSigning,

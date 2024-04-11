@@ -26,7 +26,7 @@
     "@ndn/sync": "https://ndnts-nightly.ndn.today/sync.tgz",
     "@ndn/tlv": "https://ndnts-nightly.ndn.today/tlv.tgz",
     "@ndn/ws-transport": "https://ndnts-nightly.ndn.today/ws-transport.tgz",
-    "@ucla-irl/ndnts-aux": "^1.1.3",
+    "@ucla-irl/ndnts-aux": "^2.0.1",
     "yjs": "^13.6.14"
   }
 }
