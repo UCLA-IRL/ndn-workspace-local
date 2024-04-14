@@ -8,7 +8,8 @@ import { Decoder } from '@ndn/tlv';
 import { Component, Data, Name, ValidityPeriod } from '@ndn/packet';
 import { Certificate, CertNaming, createSigner, createVerifier, ECDSA } from '@ndn/keychain';
 import { WsTransport } from '@ndn/ws-transport';
-import { Signer } from '@ndn/packet';
+import { UnixTransport } from '@ndn/node-transport';
+import { digestSigning, Signer } from '@ndn/packet';
 import * as nfdmgmt from '@ndn/nfdmgmt';
 import { Forwarder, FwTracer } from '@ndn/fw';
 import { fchQuery } from '@ndn/autoconfig';
@@ -16,8 +17,11 @@ import * as Y from 'yjs';
 
 // Global configurations
 const DEBUG = false;
-const UPDATE_INTERVAL = [300, 1000];
-const MAX_SEQUENCE = 400;
+// const UPDATE_INTERVAL = [300, 1000];
+const UPDATE_INTERVAL = [100, 101];
+const MAX_SEQUENCE = 800;
+const PAYLOAD_LENGTH = 100;
+const LOCAL = false;
 
 const decodeCert = (b64Value: string) => {
   const wire = base64ToBytes(b64Value);
@@ -25,6 +29,8 @@ const decodeCert = (b64Value: string) => {
   const cert = Certificate.fromData(data);
   return cert;
 };
+
+const payloadValue = Array.from({ length: PAYLOAD_LENGTH }).map(() => 'a').join('');
 
 const decodeKeys = async (
   tag: string,
@@ -70,6 +76,7 @@ const doFch = async () => {
   try {
     const fchRes = await fchQuery({
       transport: 'wss',
+      // transport: 'tcp', // Cannot use TCP/UDP due to prefix registration failure
       network: 'ndn',
     });
 
@@ -91,8 +98,8 @@ const registerPrefixes = async (fw: Forwarder, workspaceName: Name, nodeId: Name
     flags: 0x02, // CAPTURE
   }, {
     cOpts: { fw },
-    prefix: nfdmgmt.localhopPrefix,
-    signer: signer,
+    prefix: LOCAL ? nfdmgmt.localhostPrefix : nfdmgmt.localhopPrefix,
+    signer: LOCAL ? digestSigning : signer,
   });
   if (cr.statusCode !== 200) {
     console.error(`Unable to register route: ${cr.statusCode} ${cr.statusText}`);
@@ -105,8 +112,8 @@ const registerPrefixes = async (fw: Forwarder, workspaceName: Name, nodeId: Name
     flags: 0x02, // CAPTURE
   }, {
     cOpts: { fw },
-    prefix: nfdmgmt.localhopPrefix,
-    signer: signer,
+    prefix: LOCAL ? nfdmgmt.localhostPrefix : nfdmgmt.localhopPrefix,
+    signer: LOCAL ? digestSigning : signer,
   });
   if (cr2.statusCode !== 200) {
     console.error(`Unable to register route: ${cr2.statusCode} ${cr2.statusText}`);
@@ -119,6 +126,7 @@ type ItemType = {
   timestamp: number;
   seq: number;
   delta?: number;
+  payload?: string;
 };
 
 const main = async () => {
@@ -126,6 +134,7 @@ const main = async () => {
   const testbedPrvKeyB64 = Deno.env.get('TESTBED_PRVKEY');
   const caCertB64 = Deno.env.get('WORKSPACE_CA_CERT');
   const caPrvKeyB64 = Deno.env.get('WORKSPACE_CA_PRVKEY');
+  const nodeIdInt = parseInt(Deno.env.get('NODE_ID') ?? '0');
 
   await using closers = new AsyncDisposableStack();
 
@@ -135,17 +144,26 @@ const main = async () => {
   const workspaceName = caCert.name.getPrefix(caCert.name.length - 4);
 
   // Generate node identity
-  const nodeIdStr = `node-${randomUint()}`;
+  const nodeIdStr = `node-${nodeIdInt}-${randomUint()}`;
   const nodeId = workspaceName.append(nodeIdStr);
   const [_mySigner, myCert, myKeyBits] = await issue(nodeId, caSigner);
-  console.log(`My Cert: ${myCert.name.toString()} \n  Period: ${myCert.validity.toString()}`);
+  console.log(`[${nodeIdInt}]My Cert: ${myCert.name.toString()} \n  Period: ${myCert.validity.toString()}`);
 
   // Connect to testbed
   const fw = Forwarder.getDefault();
-  const host = await doFch();
-  const wsUrl = `wss://${host}/ws/`;
-  const wsFace = await WsTransport.createFace({ l3: { local: false }, fw }, wsUrl);
-  closers.defer(() => wsFace.close());
+  // const host = await doFch();
+  // const wsUrl = `wss://${host}/ws/`;
+  // const wsFace = await WsTransport.createFace({ l3: { local: false }, fw }, wsUrl);
+  let face;
+  if (LOCAL) {
+    face = await UnixTransport.createFace({ l3: { local: true }, fw }, '/run/nfd/nfd.sock');
+  } else {
+    const host = await doFch() ?? '';
+    const wsUrl = `wss://${host}/ws/`;
+    face = await WsTransport.createFace({ l3: { local: false }, fw }, wsUrl);
+    // face = await TcpTransport.createFace({ l3: { local: false }, fw }, host);
+  }
+  closers.defer(() => face.close());
 
   // Create workspace
   const storage = new InMemoryStorage();
@@ -166,7 +184,7 @@ const main = async () => {
     verifier: certStore.verifier,
   });
   closers.defer(() => workspace.destroy());
-  console.log('Workspace started.');
+  console.log(`[${nodeIdInt}]Workspace started.`);
 
   // Set array
   const arr = rootDoc.getArray('my array');
@@ -177,6 +195,7 @@ const main = async () => {
         nodeId: nodeIdStr,
         timestamp: Date.now(),
         seq: seqNum++,
+        payload: payloadValue,
       } satisfies ItemType,
     )]);
   };
@@ -186,13 +205,13 @@ const main = async () => {
   arr.observe((event) => {
     for (const item of event.changes.added) {
       const val = JSON.parse(item.content.getContent()[0]) as ItemType;
-      const { nodeId, timestamp, seq } = val;
+      const { nodeId, timestamp } = val;
       if (nodeId === nodeIdStr || !nodeId) {
         continue;
       }
       const timeNow = Date.now();
       const delta = timeNow - timestamp;
-      console.log(`[${nodeId} : ${seq}] Delta: ${delta} ms`);
+      // console.log(`[${nodeId} : ${seq}] Delta: ${delta} ms`);
       logRecords.push({ ...val, delta });
     }
   });
@@ -230,11 +249,13 @@ const main = async () => {
   }
 
   // Write csv file
-  using file = await Deno.create(`./logs/${nodeIdStr}.csv`);
+  using file = await Deno.create(`./logs/${nodeIdInt}.csv`);
   await file.write(new TextEncoder().encode('id,seq,delay\n'));
   for (const item of logRecords) {
     await file.write(new TextEncoder().encode(`${item.nodeId},${item.seq},${item.delta}\n`));
   }
+
+  console.log(`[${nodeIdInt}]Done`);
 };
 
 if (import.meta.main) {

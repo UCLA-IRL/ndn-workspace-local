@@ -51,8 +51,8 @@ dependencies:
     specifier: https://ndnts-nightly.ndn.today/ws-transport.tgz
     version: '@ndnts-nightly.ndn.today/ws-transport.tgz'
   '@ucla-irl/ndnts-aux':
-    specifier: ^2.0.1
-    version: 2.0.1(@ndn/endpoint@0.0.20240331-nightly-c7dc088)(@ndn/fw@0.0.20240331-nightly-c7dc088)(@ndn/keychain@0.0.20240331-nightly-c7dc088)(@ndn/l3face@0.0.20240113)(@ndn/naming-convention2@0.0.20240331-nightly-c7dc088)(@ndn/ndncert@0.0.20240331-nightly-c7dc088)(@ndn/ndnsec@0.0.20240331-nightly-c7dc088)(@ndn/nfdmgmt@0.0.20240331-nightly-c7dc088)(@ndn/node-transport@0.0.20240331-nightly-c7dc088)(@ndn/packet@0.0.20240331-nightly-c7dc088)(@ndn/segmented-object@0.0.20240331-nightly-c7dc088)(@ndn/svs@0.0.20240331-nightly-c7dc088)(@ndn/tlv@0.0.20240331-nightly-c7dc088)(@ndn/util@0.0.20240113)(@ndn/ws-transport@0.0.20240331-nightly-c7dc088)
+    specifier: ^2.0.2
+    version: 2.0.2(@ndn/endpoint@0.0.20240331-nightly-c7dc088)(@ndn/fw@0.0.20240331-nightly-c7dc088)(@ndn/keychain@0.0.20240331-nightly-c7dc088)(@ndn/l3face@0.0.20240113)(@ndn/naming-convention2@0.0.20240331-nightly-c7dc088)(@ndn/ndncert@0.0.20240331-nightly-c7dc088)(@ndn/ndnsec@0.0.20240331-nightly-c7dc088)(@ndn/nfdmgmt@0.0.20240331-nightly-c7dc088)(@ndn/node-transport@0.0.20240331-nightly-c7dc088)(@ndn/packet@0.0.20240331-nightly-c7dc088)(@ndn/segmented-object@0.0.20240331-nightly-c7dc088)(@ndn/svs@0.0.20240331-nightly-c7dc088)(@ndn/tlv@0.0.20240331-nightly-c7dc088)(@ndn/util@0.0.20240113)(@ndn/ws-transport@0.0.20240331-nightly-c7dc088)
   yjs:
     specifier: ^13.6.14
     version: 13.6.14
@@ -187,8 +187,8 @@ packages:
       '@types/node': 20.12.7
     dev: false
 
-  /@ucla-irl/ndnts-aux@2.0.1(@ndn/endpoint@0.0.20240331-nightly-c7dc088)(@ndn/fw@0.0.20240331-nightly-c7dc088)(@ndn/keychain@0.0.20240331-nightly-c7dc088)(@ndn/l3face@0.0.20240113)(@ndn/naming-convention2@0.0.20240331-nightly-c7dc088)(@ndn/ndncert@0.0.20240331-nightly-c7dc088)(@ndn/ndnsec@0.0.20240331-nightly-c7dc088)(@ndn/nfdmgmt@0.0.20240331-nightly-c7dc088)(@ndn/node-transport@0.0.20240331-nightly-c7dc088)(@ndn/packet@0.0.20240331-nightly-c7dc088)(@ndn/segmented-object@0.0.20240331-nightly-c7dc088)(@ndn/svs@0.0.20240331-nightly-c7dc088)(@ndn/tlv@0.0.20240331-nightly-c7dc088)(@ndn/util@0.0.20240113)(@ndn/ws-transport@0.0.20240331-nightly-c7dc088):
-    resolution: {integrity: sha512-u9bp2wTp/GL/AHu7V7Ga6GBw0cTyHJTTjXt1JQMj6qUaydoP+MKo4LZ6IO8gQupn8rkDkYLxVyrOlwNkwNHD2g==, tarball: https://npm.pkg.github.com/download/@ucla-irl/ndnts-aux/2.0.1/b370f0960f18cdaa2535f55d1a827a836e66fdeb}
+  /@ucla-irl/ndnts-aux@2.0.2(@ndn/endpoint@0.0.20240331-nightly-c7dc088)(@ndn/fw@0.0.20240331-nightly-c7dc088)(@ndn/keychain@0.0.20240331-nightly-c7dc088)(@ndn/l3face@0.0.20240113)(@ndn/naming-convention2@0.0.20240331-nightly-c7dc088)(@ndn/ndncert@0.0.20240331-nightly-c7dc088)(@ndn/ndnsec@0.0.20240331-nightly-c7dc088)(@ndn/nfdmgmt@0.0.20240331-nightly-c7dc088)(@ndn/node-transport@0.0.20240331-nightly-c7dc088)(@ndn/packet@0.0.20240331-nightly-c7dc088)(@ndn/segmented-object@0.0.20240331-nightly-c7dc088)(@ndn/svs@0.0.20240331-nightly-c7dc088)(@ndn/tlv@0.0.20240331-nightly-c7dc088)(@ndn/util@0.0.20240113)(@ndn/ws-transport@0.0.20240331-nightly-c7dc088):
+    resolution: {integrity: sha512-48dU76CF8KkD4fimzOpBJdO6k29v96S8zsY9yKSk5X2yGROV7R72OUeI8Of9sfnqyMHkHAkCTZAqYcPGhxokCw==, tarball: https://npm.pkg.github.com/download/@ucla-irl/ndnts-aux/2.0.2/116ccde54016006fd949fdce467bf85b9f9dcf51}
     peerDependencies:
       '@ndn/endpoint': '>=0.0.0'
       '@ndn/fw': '>=0.0.0'
@@ -481,7 +481,7 @@ packages:
       tslib: ^2.3.0
     dependencies:
       imap: 0.8.19
-      mailparser: 3.6.9
+      mailparser: 3.7.0
       tslib: 2.6.2
     dev: false
 
@@ -596,8 +596,8 @@ packages:
       uc.micro: 2.1.0
     dev: false
 
-  /mailparser@3.6.9:
-    resolution: {integrity: sha512-1fIDZlgN1NnuzmTSEUxkaViquXYkw5NbQehVc+kz55QRy98QgLdTtRSKv289Jy4NrCiDchRx6zAijB4HrPsvkA==}
+  /mailparser@3.7.0:
+    resolution: {integrity: sha512-yFo1+4r3gHhTcazVGCv3D/uX5VJyyrx4iWkzKtJh8mujYIUm92kpG5BjKpZIJgEoKcKxbJVd4CPs+IImE1sKlQ==}
     dependencies:
       encoding-japanese: 2.0.0
       he: 1.2.0
