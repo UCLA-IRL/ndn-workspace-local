@@ -138,6 +138,7 @@ const main = async () => {
   const caCertB64 = Deno.env.get('WORKSPACE_CA_CERT');
   const caPrvKeyB64 = Deno.env.get('WORKSPACE_CA_PRVKEY');
   const nodeIdInt = parseInt(Deno.env.get('NODE_ID') ?? '0');
+  const host = Deno.env.get('HOST');
 
   await using closers = new AsyncDisposableStack();
 
@@ -161,11 +162,9 @@ const main = async () => {
   if (LOCAL) {
     face = await UnixTransport.createFace({ l3: { local: true }, fw }, '/run/nfd/nfd.sock');
   } else {
-    // const host = await doFch() ?? '';
-    const host = 'suns.cs.ucla.edu'
     // const wsUrl = `wss://${host}/ws/`;
     // face = await WsTransport.createFace({ l3: { local: false }, fw }, wsUrl);
-    face = await TcpTransport.createFace({ l3: { local: false }, fw }, host);
+    face = await TcpTransport.createFace({ l3: { local: false }, fw }, { host, port: 6363 });
   }
   closers.defer(() => face.close());
 
@@ -177,9 +176,9 @@ const main = async () => {
   // Register prefixes
   try {
     await registerPrefixes(fw, workspaceName, nodeId, testbedSigner);
-  } catch(err) {
-    console.error(err)
-    await sleep(180)
+  } catch (err) {
+    console.error(err);
+    await sleep(180);
     return;
   }
 
