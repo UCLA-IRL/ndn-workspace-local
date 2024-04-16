@@ -7,8 +7,8 @@ import { CertStorage } from '@ucla-irl/ndnts-aux/security';
 import { Decoder } from '@ndn/tlv';
 import { Component, Data, Name, ValidityPeriod } from '@ndn/packet';
 import { Certificate, CertNaming, createSigner, createVerifier, ECDSA } from '@ndn/keychain';
-import { WsTransport } from '@ndn/ws-transport';
-import { UnixTransport } from '@ndn/node-transport';
+// import { WsTransport } from '@ndn/ws-transport';
+import { TcpTransport, UnixTransport } from '@ndn/node-transport';
 import { digestSigning, Signer } from '@ndn/packet';
 import * as nfdmgmt from '@ndn/nfdmgmt';
 import { Forwarder, FwTracer } from '@ndn/fw';
@@ -18,8 +18,8 @@ import * as Y from 'yjs';
 // Global configurations
 const DEBUG = false;
 // const UPDATE_INTERVAL = [300, 1000];
-const UPDATE_INTERVAL = [100, 101];
-const MAX_SEQUENCE = 800;
+const UPDATE_INTERVAL = [50, 51];
+const MAX_SEQUENCE = 1600;
 const PAYLOAD_LENGTH = 100;
 const LOCAL = false;
 
@@ -75,13 +75,16 @@ const issue = async (idName: Name, issuerPrivateKey: Signer): Promise<[Signer, C
 const doFch = async () => {
   try {
     const fchRes = await fchQuery({
-      transport: 'wss',
-      // transport: 'tcp', // Cannot use TCP/UDP due to prefix registration failure
+      // transport: 'wss',
+      transport: 'tcp', // Cannot use TCP/UDP due to prefix registration failure
       network: 'ndn',
     });
 
     if (fchRes.routers.length > 0) {
       return new URL(fchRes.routers[0].connect).host;
+    } else {
+      console.error('FCH gives no response.');
+      Deno.exit(1);
     }
   } catch {
     console.error('FCH server is down');
@@ -158,10 +161,11 @@ const main = async () => {
   if (LOCAL) {
     face = await UnixTransport.createFace({ l3: { local: true }, fw }, '/run/nfd/nfd.sock');
   } else {
-    const host = await doFch() ?? '';
-    const wsUrl = `wss://${host}/ws/`;
-    face = await WsTransport.createFace({ l3: { local: false }, fw }, wsUrl);
-    // face = await TcpTransport.createFace({ l3: { local: false }, fw }, host);
+    // const host = await doFch() ?? '';
+    const host = 'suns.cs.ucla.edu'
+    // const wsUrl = `wss://${host}/ws/`;
+    // face = await WsTransport.createFace({ l3: { local: false }, fw }, wsUrl);
+    face = await TcpTransport.createFace({ l3: { local: false }, fw }, host);
   }
   closers.defer(() => face.close());
 
@@ -171,7 +175,13 @@ const main = async () => {
   const certStore = new CertStorage(caCert, myCert, storage, fw, new Uint8Array(myKeyBits));
 
   // Register prefixes
-  await registerPrefixes(fw, workspaceName, nodeId, testbedSigner);
+  try {
+    await registerPrefixes(fw, workspaceName, nodeId, testbedSigner);
+  } catch(err) {
+    console.error(err)
+    await sleep(180)
+    return;
+  }
 
   // Run workspace
   const rootDoc = new Y.Doc();
