@@ -8,12 +8,13 @@ import { Decoder } from '@ndn/tlv';
 import { Component, Data, Name, ValidityPeriod } from '@ndn/packet';
 import { Certificate, CertNaming, createSigner, createVerifier, ECDSA } from '@ndn/keychain';
 // import { WsTransport } from '@ndn/ws-transport';
-import { TcpTransport, UnixTransport } from '@ndn/node-transport';
+import { TcpTransport, UdpTransport, UnixTransport } from '@ndn/node-transport';
 import { digestSigning, Signer } from '@ndn/packet';
 import * as nfdmgmt from '@ndn/nfdmgmt';
 import { Forwarder, FwTracer } from '@ndn/fw';
 import { fchQuery } from '@ndn/autoconfig';
 import * as Y from 'yjs';
+import { produce } from '@ndn/endpoint';
 
 // Global configurations
 const DEBUG = false;
@@ -138,12 +139,12 @@ const main = async () => {
   const caCertB64 = Deno.env.get('WORKSPACE_CA_CERT');
   const caPrvKeyB64 = Deno.env.get('WORKSPACE_CA_PRVKEY');
   const nodeIdInt = parseInt(Deno.env.get('NODE_ID') ?? '0');
-  const host = Deno.env.get('HOST');
+  const host = Deno.env.get('HOST') ?? '';
 
   await using closers = new AsyncDisposableStack();
 
   // Load credentials
-  const [testbedSigner, _testbedCert] = await decodeKeys('Testbed', testbedCertB64, testbedPrvKeyB64);
+  const [testbedSigner, testbedCert] = await decodeKeys('Testbed', testbedCertB64, testbedPrvKeyB64);
   const [caSigner, caCert] = await decodeKeys('Workspace CA', caCertB64, caPrvKeyB64);
   const workspaceName = caCert.name.getPrefix(caCert.name.length - 4);
 
@@ -152,6 +153,7 @@ const main = async () => {
   const nodeId = workspaceName.append(nodeIdStr);
   const [_mySigner, myCert, myKeyBits] = await issue(nodeId, caSigner);
   console.log(`[${nodeIdInt}]My Cert: ${myCert.name.toString()} \n  Period: ${myCert.validity.toString()}`);
+  console.log(`[${nodeIdInt}]DEST: ${host}`);
 
   // Connect to testbed
   const fw = Forwarder.getDefault();
@@ -159,12 +161,18 @@ const main = async () => {
   // const wsUrl = `wss://${host}/ws/`;
   // const wsFace = await WsTransport.createFace({ l3: { local: false }, fw }, wsUrl);
   let face;
-  if (LOCAL) {
-    face = await UnixTransport.createFace({ l3: { local: true }, fw }, '/run/nfd/nfd.sock');
-  } else {
-    // const wsUrl = `wss://${host}/ws/`;
-    // face = await WsTransport.createFace({ l3: { local: false }, fw }, wsUrl);
-    face = await TcpTransport.createFace({ l3: { local: false }, fw }, { host, port: 6363 });
+  try {
+    if (LOCAL) {
+      face = await UnixTransport.createFace({ l3: { local: true }, fw }, '/run/nfd/nfd.sock');
+    } else {
+      // const wsUrl = `wss://${host}/ws/`;
+      // face = await WsTransport.createFace({ l3: { local: false }, fw }, wsUrl);
+      // face = await TcpTransport.createFace({ l3: { local: false }, fw }, { host, port: 6363 });
+      face = await UdpTransport.createFace({ l3: { local: false }, fw }, { host });
+    }
+  } catch (err) {
+    console.error(`[${nodeIdInt}]Unable to connect: ${host}: ${err}`);
+    return;
   }
   closers.defer(() => face.close());
 
@@ -173,12 +181,19 @@ const main = async () => {
   closers.use(storage);
   const certStore = new CertStorage(caCert, myCert, storage, fw, new Uint8Array(myKeyBits));
 
+  // Serve certificate
+  const certProducer = produce(
+    testbedCert.name.getPrefix(testbedCert.name.length - 2),
+    () => Promise.resolve(testbedCert.data),
+  );
+  closers.defer(() => certProducer.close());
+
   // Register prefixes
   try {
     await registerPrefixes(fw, workspaceName, nodeId, testbedSigner);
   } catch (err) {
-    console.error(err);
-    await sleep(180);
+    console.error(`[${nodeIdInt}]Unable to register: ${err}`);
+    // await sleep(180);
     return;
   }
 
@@ -229,7 +244,7 @@ const main = async () => {
   let stop = false;
   const { promise: exitSignal, resolve: exitResolve } = Promise.withResolvers<void>();
   Deno.addSignalListener('SIGINT', () => {
-    console.log('\nStopped by Ctrl+C');
+    console.log(`[${nodeIdInt}]Stopped by Ctrl+C`);
     stop = true;
     exitResolve();
   });
