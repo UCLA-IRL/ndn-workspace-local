@@ -15,14 +15,17 @@ import { Forwarder, FwTracer } from '@ndn/fw';
 import { fchQuery } from '@ndn/autoconfig';
 import * as Y from 'yjs';
 import { produce } from '@ndn/endpoint';
+import { fromHex } from '@ndn/util';
 
 // Global configurations
-const DEBUG = false;
+let DEBUG = false;
 // const UPDATE_INTERVAL = [300, 1000];
-const UPDATE_INTERVAL = [50, 51];
-const MAX_SEQUENCE = 1600;
+const UPDATE_INTERVAL = [100, 101];
+const MAX_SEQUENCE = 800;
 const PAYLOAD_LENGTH = 100;
-const LOCAL = false;
+const LOCAL = true;
+
+const groupKeyBits = fromHex('0102030405060708090A0B0C0D0E0F10');
 
 const decodeCert = (b64Value: string) => {
   const wire = base64ToBytes(b64Value);
@@ -106,7 +109,9 @@ const registerPrefixes = async (fw: Forwarder, workspaceName: Name, nodeId: Name
     signer: LOCAL ? digestSigning : signer,
   });
   if (cr.statusCode !== 200) {
-    console.error(`Unable to register route: ${cr.statusCode} ${cr.statusText}`);
+    console.error(
+      `[${Deno.env.get('NODE_ID')}:${Deno.env.get('HOST')}]Unable to register route: ${cr.statusCode} ${cr.statusText}`,
+    );
     Deno.exit();
   }
   const cr2 = await nfdmgmt.invoke('rib/register', {
@@ -120,7 +125,11 @@ const registerPrefixes = async (fw: Forwarder, workspaceName: Name, nodeId: Name
     signer: LOCAL ? digestSigning : signer,
   });
   if (cr2.statusCode !== 200) {
-    console.error(`Unable to register route: ${cr2.statusCode} ${cr2.statusText}`);
+    console.error(
+      `[${Deno.env.get('NODE_ID')}:${
+        Deno.env.get('HOST')
+      }]Unable to register route: ${cr2.statusCode} ${cr2.statusText}`,
+    );
     Deno.exit();
   }
 };
@@ -206,6 +215,8 @@ const main = async () => {
     rootDoc: rootDoc,
     signer: certStore.signer,
     verifier: certStore.verifier,
+    useBundler: false,
+    groupKeyBits: groupKeyBits,
   });
   closers.defer(() => workspace.destroy());
   console.log(`[${nodeIdInt}]Workspace started.`);
@@ -284,6 +295,7 @@ const main = async () => {
 
 if (import.meta.main) {
   await loadDotenv({ export: true });
+  DEBUG = Deno.env.get('DEBUG') ? true : false;
   if (DEBUG) FwTracer.enable();
   await main();
 }

@@ -9,6 +9,7 @@ import { SafeBag } from '@ndn/ndnsec';
 import { UnixTransport } from '@ndn/node-transport';
 import * as nfdmgmt from '@ndn/nfdmgmt';
 import { Forwarder, FwTracer } from '@ndn/fw';
+import { sleep } from 'https://deno.land/x/sleep@v1.3.0/mod.ts';
 import * as Y from 'yjs';
 
 const TRUST_ANCHOR = `
