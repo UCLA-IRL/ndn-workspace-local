@@ -61,7 +61,7 @@ importers:
         version: https://ndnts-nightly.ndn.today/ws-transport.tgz
       '@ucla-irl/ndnts-aux':
         specifier: ^3.0.1
-        version: 3.0.1(@ndn/endpoint@https://ndnts-nightly.ndn.today/endpoint.tgz)(@ndn/fw@https://ndnts-nightly.ndn.today/fw.tgz)(@ndn/keychain@https://ndnts-nightly.ndn.today/keychain.tgz)(@ndn/l3face@https://ndnts-nightly.ndn.today/l3face.tgz)(@ndn/naming-convention2@https://ndnts-nightly.ndn.today/naming-convention2.tgz)(@ndn/ndncert@https://ndnts-nightly.ndn.today/ndncert.tgz)(@ndn/ndnsec@https://ndnts-nightly.ndn.today/ndnsec.tgz)(@ndn/nfdmgmt@https://ndnts-nightly.ndn.today/nfdmgmt.tgz)(@ndn/node-transport@https://ndnts-nightly.ndn.today/node-transport.tgz)(@ndn/packet@https://ndnts-nightly.ndn.today/packet.tgz)(@ndn/segmented-object@https://ndnts-nightly.ndn.today/segmented-object.tgz)(@ndn/svs@https://ndnts-nightly.ndn.today/svs.tgz)(@ndn/tlv@https://ndnts-nightly.ndn.today/tlv.tgz)(@ndn/util@https://ndnts-nightly.ndn.today/util.tgz)(@ndn/ws-transport@https://ndnts-nightly.ndn.today/ws-transport.tgz)
+        version: 3.0.2(@ndn/endpoint@https://ndnts-nightly.ndn.today/endpoint.tgz)(@ndn/fw@https://ndnts-nightly.ndn.today/fw.tgz)(@ndn/keychain@https://ndnts-nightly.ndn.today/keychain.tgz)(@ndn/l3face@https://ndnts-nightly.ndn.today/l3face.tgz)(@ndn/naming-convention2@https://ndnts-nightly.ndn.today/naming-convention2.tgz)(@ndn/ndncert@https://ndnts-nightly.ndn.today/ndncert.tgz)(@ndn/ndnsec@https://ndnts-nightly.ndn.today/ndnsec.tgz)(@ndn/nfdmgmt@https://ndnts-nightly.ndn.today/nfdmgmt.tgz)(@ndn/node-transport@https://ndnts-nightly.ndn.today/node-transport.tgz)(@ndn/packet@https://ndnts-nightly.ndn.today/packet.tgz)(@ndn/segmented-object@https://ndnts-nightly.ndn.today/segmented-object.tgz)(@ndn/svs@https://ndnts-nightly.ndn.today/svs.tgz)(@ndn/tlv@https://ndnts-nightly.ndn.today/tlv.tgz)(@ndn/util@https://ndnts-nightly.ndn.today/util.tgz)(@ndn/ws-transport@https://ndnts-nightly.ndn.today/ws-transport.tgz)
       yjs:
         specifier: ^13.6.15
         version: 13.6.15
@@ -100,96 +100,96 @@ packages:
 
   '@ndn/autoconfig@https://ndnts-nightly.ndn.today/autoconfig.tgz':
     resolution: {tarball: https://ndnts-nightly.ndn.today/autoconfig.tgz}
-    version: 0.0.20240421-nightly-ca71ef1
+    version: 0.0.20240505-nightly-86a5aaa
 
   '@ndn/endpoint@https://ndnts-nightly.ndn.today/endpoint.tgz':
     resolution: {tarball: https://ndnts-nightly.ndn.today/endpoint.tgz}
-    version: 0.0.20240421-nightly-ca71ef1
+    version: 0.0.20240505-nightly-86a5aaa
 
   '@ndn/fw@https://ndnts-nightly.ndn.today/fw.tgz':
     resolution: {tarball: https://ndnts-nightly.ndn.today/fw.tgz}
-    version: 0.0.20240421-nightly-ca71ef1
+    version: 0.0.20240505-nightly-86a5aaa
 
   '@ndn/keychain@https://ndnts-nightly.ndn.today/keychain.tgz':
     resolution: {tarball: https://ndnts-nightly.ndn.today/keychain.tgz}
-    version: 0.0.20240421-nightly-ca71ef1
+    version: 0.0.20240505-nightly-86a5aaa
 
   '@ndn/l3face@https://ndnts-nightly.ndn.today/l3face.tgz':
     resolution: {tarball: https://ndnts-nightly.ndn.today/l3face.tgz}
-    version: 0.0.20240421-nightly-ca71ef1
+    version: 0.0.20240505-nightly-86a5aaa
 
   '@ndn/lp@https://ndnts-nightly.ndn.today/lp.tgz':
     resolution: {tarball: https://ndnts-nightly.ndn.today/lp.tgz}
-    version: 0.0.20240421-nightly-ca71ef1
+    version: 0.0.20240505-nightly-86a5aaa
 
   '@ndn/naming-convention2@https://ndnts-nightly.ndn.today/naming-convention2.tgz':
     resolution: {tarball: https://ndnts-nightly.ndn.today/naming-convention2.tgz}
-    version: 0.0.20240421-nightly-ca71ef1
+    version: 0.0.20240505-nightly-86a5aaa
 
   '@ndn/ndncert@https://ndnts-nightly.ndn.today/ndncert.tgz':
     resolution: {tarball: https://ndnts-nightly.ndn.today/ndncert.tgz}
-    version: 0.0.20240421-nightly-ca71ef1
+    version: 0.0.20240505-nightly-86a5aaa
 
   '@ndn/ndnsec@https://ndnts-nightly.ndn.today/ndnsec.tgz':
     resolution: {tarball: https://ndnts-nightly.ndn.today/ndnsec.tgz}
-    version: 0.0.20240421-nightly-ca71ef1
+    version: 0.0.20240505-nightly-86a5aaa
 
   '@ndn/nfdmgmt@https://ndnts-nightly.ndn.today/nfdmgmt.tgz':
     resolution: {tarball: https://ndnts-nightly.ndn.today/nfdmgmt.tgz}
-    version: 0.0.20240421-nightly-ca71ef1
+    version: 0.0.20240505-nightly-86a5aaa
 
   '@ndn/node-transport@https://ndnts-nightly.ndn.today/node-transport.tgz':
     resolution: {tarball: https://ndnts-nightly.ndn.today/node-transport.tgz}
-    version: 0.0.20240421-nightly-ca71ef1
+    version: 0.0.20240505-nightly-86a5aaa
 
   '@ndn/packet@https://ndnts-nightly.ndn.today/packet.tgz':
     resolution: {tarball: https://ndnts-nightly.ndn.today/packet.tgz}
-    version: 0.0.20240421-nightly-ca71ef1
+    version: 0.0.20240505-nightly-86a5aaa
 
   '@ndn/psync@https://ndnts-nightly.ndn.today/psync.tgz':
     resolution: {tarball: https://ndnts-nightly.ndn.today/psync.tgz}
-    version: 0.0.20240421-nightly-ca71ef1
+    version: 0.0.20240505-nightly-86a5aaa
 
   '@ndn/quic-transport@https://ndnts-nightly.ndn.today/quic-transport.tgz':
     resolution: {tarball: https://ndnts-nightly.ndn.today/quic-transport.tgz}
-    version: 0.0.20240421-nightly-ca71ef1
+    version: 0.0.20240505-nightly-86a5aaa
 
   '@ndn/rdr@https://ndnts-nightly.ndn.today/rdr.tgz':
     resolution: {tarball: https://ndnts-nightly.ndn.today/rdr.tgz}
-    version: 0.0.20240421-nightly-ca71ef1
+    version: 0.0.20240505-nightly-86a5aaa
 
   '@ndn/repo-api@https://ndnts-nightly.ndn.today/repo-api.tgz':
     resolution: {tarball: https://ndnts-nightly.ndn.today/repo-api.tgz}
-    version: 0.0.20240421-nightly-ca71ef1
+    version: 0.0.20240505-nightly-86a5aaa
 
   '@ndn/segmented-object@https://ndnts-nightly.ndn.today/segmented-object.tgz':
     resolution: {tarball: https://ndnts-nightly.ndn.today/segmented-object.tgz}
-    version: 0.0.20240421-nightly-ca71ef1
+    version: 0.0.20240505-nightly-86a5aaa
 
   '@ndn/svs@https://ndnts-nightly.ndn.today/svs.tgz':
     resolution: {tarball: https://ndnts-nightly.ndn.today/svs.tgz}
-    version: 0.0.20240421-nightly-ca71ef1
+    version: 0.0.20240505-nightly-86a5aaa
 
   '@ndn/sync-api@https://ndnts-nightly.ndn.today/sync-api.tgz':
     resolution: {tarball: https://ndnts-nightly.ndn.today/sync-api.tgz}
-    version: 0.0.20240421-nightly-ca71ef1
+    version: 0.0.20240505-nightly-86a5aaa
 
   '@ndn/sync@https://ndnts-nightly.ndn.today/sync.tgz':
     resolution: {tarball: https://ndnts-nightly.ndn.today/sync.tgz}
-    version: 0.0.20240421-nightly-ca71ef1
+    version: 0.0.20240505-nightly-86a5aaa
 
   '@ndn/tlv@https://ndnts-nightly.ndn.today/tlv.tgz':
     resolution: {tarball: https://ndnts-nightly.ndn.today/tlv.tgz}
-    version: 0.0.20240421-nightly-ca71ef1
+    version: 0.0.20240505-nightly-86a5aaa
 
   '@ndn/util@https://ndnts-nightly.ndn.today/util.tgz':
     resolution: {tarball: https://ndnts-nightly.ndn.today/util.tgz}
-    version: 0.0.20240421-nightly-ca71ef1
-    engines: {node: ^18.18.0 || ^20.10.0 || ^21.0.0}
+    version: 0.0.20240505-nightly-86a5aaa
+    engines: {node: ^20.12.0 || ^22.0.0}
 
   '@ndn/ws-transport@https://ndnts-nightly.ndn.today/ws-transport.tgz':
     resolution: {tarball: https://ndnts-nightly.ndn.today/ws-transport.tgz}
-    version: 0.0.20240421-nightly-ca71ef1
+    version: 0.0.20240505-nightly-86a5aaa
 
   '@noble/ed25519@2.1.0':
     resolution: {integrity: sha512-KM4qTyXPinyCgMzeYJH/UudpdL+paJXtY3CHtHYZQtBkS8MZoPr4rOikZllIutJe0d06QDQKisyn02gxZ8TcQA==}
@@ -209,11 +209,11 @@ packages:
   '@types/minimalistic-assert@1.0.3':
     resolution: {integrity: sha512-Ku87cam4YxiXcEpeUemo+vO8QWGQ7U2CwEEcLcYFhxG8b4CK8gWxSX/oWjePWKwqPaWWxxVqXAdAjGdlJtVzDA==}
 
-  '@types/node@20.12.7':
-    resolution: {integrity: sha512-wq0cICSkRLVaf3UGLMGItu/PtdY7oaXaI/RVU+xliKVOtRna3PRY57ZDfztpDL0n11vfymMUnXv8QwYCO7L1wg==}
+  '@types/node@20.12.10':
+    resolution: {integrity: sha512-Eem5pH9pmWBHoGAT8Dr5fdc5rYA+4NAovdM4EktRPVAAiJhmWWfQrA0cFhAbOsQdSfIHjAud6YdkbL69+zSKjw==}
 
-  '@types/nodemailer@6.4.14':
-    resolution: {integrity: sha512-fUWthHO9k9DSdPCSPRqcu6TWhYyxTBg382vlNIttSe9M7XfsT06y0f24KHXtbnijPGGRIcVvdKHTNikOI6qiHA==}
+  '@types/nodemailer@6.4.15':
+    resolution: {integrity: sha512-0EBJxawVNjPkng1zm2vopRctuWVCxk34JcIlRuXSf54habUWdz1FB7wHDqOqvDa8Mtpt0Q3LTXQkAs2LNyK5jQ==}
 
   '@types/retry@0.12.5':
     resolution: {integrity: sha512-3xSjTp3v03X/lSQLkczaN9UIEwJMoMCA1+Nb5HfbJEQWogdeQIyVtTvxPXDQjZ5zws8rFQfVfRdz03ARihPJgw==}
@@ -224,9 +224,9 @@ packages:
   '@types/ws@8.5.10':
     resolution: {integrity: sha512-vmQSUcfalpIq0R9q7uTo2lXs6eGIpt9wtnLdMv9LVpIjCA/+ufZRozlVoVelIYixx1ugCBKDhn89vnsEGOCx9A==}
 
-  '@ucla-irl/ndnts-aux@3.0.1':
-    resolution: {integrity: sha512-2En6U/OhW6bVbL7E+YbGDV+G5UfI3Qvn3yuqVVjnt0UmSyPCSLJ/MHjvSsGi1vUboeqV+85446GyAuqzMimEMA==, tarball: https://npm.pkg.github.com/download/@ucla-irl/ndnts-aux/3.0.1/840fae084e5d6e0f99d875dd212bbfe9e6e04d60}
-    version: 3.0.1
+  '@ucla-irl/ndnts-aux@3.0.2':
+    resolution: {integrity: sha512-QJY9pf7vHYAc8B70XHeZLIVbFWebXX7XiHE3kJYbsqQ124oZUFB2X9K9W9+edoqiLMdORleAYpFMIkO8vhlICQ==, tarball: https://npm.pkg.github.com/download/@ucla-irl/ndnts-aux/3.0.2/cd2d997096871d82d89f927bf2f15ef4d4164302}
+    version: 3.0.2
     peerDependencies:
       '@ndn/endpoint': '>=0.0.0'
       '@ndn/fw': '>=0.0.0'
@@ -493,8 +493,8 @@ packages:
     resolution: {integrity: sha512-+P72GAjVAbTxjjwUmwjVrqrdZROD4nf8KgpBoDxqXXTiYZZt/ud60dE5yvCSr9lRO8e8yv6kgJIC0K0PfZFVQw==}
     hasBin: true
 
-  node-gyp-build@4.8.0:
-    resolution: {integrity: sha512-u6fs2AEUljNho3EYTJNBfImO5QTo/J/1Etd+NVdCj7qWKUSN/bSLkZwhDv7I+w/MSC6qJ4cknepkAYykDdK8og==}
+  node-gyp-build@4.8.1:
+    resolution: {integrity: sha512-OSs33Z9yWr148JZcbZd5WiAXhh/n9z8TxQcdMhIOlpN9AhWpLfvVFO73+m77bBABQMaY9XSvIa+qk0jlI7Gcaw==}
     hasBin: true
 
   nodemailer@6.9.13:
@@ -611,8 +611,8 @@ packages:
   tslib@2.6.2:
     resolution: {integrity: sha512-AEYxH93jGFPn/a2iVAwW87VuUIkR1FVUKB77NwMF7nBTDkDrrT/Hpt/IrCJ0QXhW27jTBDcf5ZY7w6RiqTMw2Q==}
 
-  type-fest@4.18.0:
-    resolution: {integrity: sha512-+dbmiyliDY/2TTcjCS7NpI9yV2iEFlUDk5TKnsbkN7ZoRu5s7bT+zvYtNFhFXC2oLwURGT2frACAZvbbyNBI+w==}
+  type-fest@4.18.2:
+    resolution: {integrity: sha512-+suCYpfJLAe4OXS6+PPXjW3urOS4IoP9waSiLuXfLgqZODKw/aWwASvzqE886wA0kQgGy0mIWyhd87VpqIy6Xg==}
     engines: {node: '>=16'}
 
   typescript-event-target@1.1.1:
@@ -737,7 +737,7 @@ snapshots:
       idb-keyval: 6.2.1
       mnemonist: 0.39.8
       tslib: 2.6.2
-      type-fest: 4.18.0
+      type-fest: 4.18.2
       wait-your-turn: 1.0.1
 
   '@ndn/l3face@https://ndnts-nightly.ndn.today/l3face.tgz':
@@ -752,7 +752,7 @@ snapshots:
       retry: 0.13.1
       streaming-iterables: 8.0.1
       tslib: 2.6.2
-      type-fest: 4.18.0
+      type-fest: 4.18.2
       typescript-event-target: 1.1.1
 
   '@ndn/lp@https://ndnts-nightly.ndn.today/lp.tgz':
@@ -780,14 +780,14 @@ snapshots:
       '@ndn/tlv': https://ndnts-nightly.ndn.today/tlv.tgz
       '@ndn/util': https://ndnts-nightly.ndn.today/util.tgz
       '@types/imap': 0.8.40
-      '@types/nodemailer': 6.4.14
+      '@types/nodemailer': 6.4.15
       ajv: 8.13.0
       b64-lite: 1.4.0
       imap-emails: 1.0.4(tslib@2.6.2)
       nodemailer: 6.9.13
       p-timeout: 6.1.2
       tslib: 2.6.2
-      type-fest: 4.18.0
+      type-fest: 4.18.2
       typescript-event-target: 1.1.1
 
   '@ndn/ndnsec@https://ndnts-nightly.ndn.today/ndnsec.tgz':
@@ -818,7 +818,7 @@ snapshots:
       event-iterator: 2.0.0
       p-event: 6.0.1
       tslib: 2.6.2
-      type-fest: 4.18.0
+      type-fest: 4.18.2
       url-format-lax: 2.0.0
       url-parse-lax: 5.0.0
 
@@ -829,7 +829,7 @@ snapshots:
       buffer-compare: 1.1.1
       mnemonist: 0.39.8
       tslib: 2.6.2
-      type-fest: 4.18.0
+      type-fest: 4.18.2
 
   '@ndn/psync@https://ndnts-nightly.ndn.today/psync.tgz':
     dependencies:
@@ -888,9 +888,10 @@ snapshots:
       '@ndn/util': https://ndnts-nightly.ndn.today/util.tgz
       event-iterator: 2.0.0
       hirestime: 7.0.4
+      it-keepalive: 1.2.0
       mnemonist: 0.39.8
+      obliterator: 2.0.4
       p-defer: 4.0.1
-      p-event: 6.0.1
       p-lazy: 4.0.0
       streaming-iterables: 8.0.1
       tslib: 2.6.2
@@ -909,7 +910,7 @@ snapshots:
       '@ndn/util': https://ndnts-nightly.ndn.today/util.tgz
       streaming-iterables: 8.0.1
       tslib: 2.6.2
-      type-fest: 4.18.0
+      type-fest: 4.18.2
       typescript-event-target: 1.1.1
 
   '@ndn/sync-api@https://ndnts-nightly.ndn.today/sync-api.tgz':
@@ -930,7 +931,7 @@ snapshots:
       '@ndn/util': https://ndnts-nightly.ndn.today/util.tgz
       mnemonist: 0.39.8
       tslib: 2.6.2
-      type-fest: 4.18.0
+      type-fest: 4.18.2
 
   '@ndn/util@https://ndnts-nightly.ndn.today/util.tgz':
     dependencies:
@@ -940,7 +941,7 @@ snapshots:
       minimalistic-assert: 1.0.1
       streaming-iterables: 8.0.1
       tslib: 2.6.2
-      type-fest: 4.18.0
+      type-fest: 4.18.2
       wait-your-turn: 1.0.1
 
   '@ndn/ws-transport@https://ndnts-nightly.ndn.today/ws-transport.tgz':
@@ -970,17 +971,17 @@ snapshots:
 
   '@types/imap@0.8.40':
     dependencies:
-      '@types/node': 20.12.7
+      '@types/node': 20.12.10
 
   '@types/minimalistic-assert@1.0.3': {}
 
-  '@types/node@20.12.7':
+  '@types/node@20.12.10':
     dependencies:
       undici-types: 5.26.5
 
-  '@types/nodemailer@6.4.14':
+  '@types/nodemailer@6.4.15':
     dependencies:
-      '@types/node': 20.12.7
+      '@types/node': 20.12.10
 
   '@types/retry@0.12.5': {}
 
@@ -988,9 +989,9 @@ snapshots:
 
   '@types/ws@8.5.10':
     dependencies:
-      '@types/node': 20.12.7
+      '@types/node': 20.12.10
 
-  '@ucla-irl/ndnts-aux@3.0.1(@ndn/endpoint@https://ndnts-nightly.ndn.today/endpoint.tgz)(@ndn/fw@https://ndnts-nightly.ndn.today/fw.tgz)(@ndn/keychain@https://ndnts-nightly.ndn.today/keychain.tgz)(@ndn/l3face@https://ndnts-nightly.ndn.today/l3face.tgz)(@ndn/naming-convention2@https://ndnts-nightly.ndn.today/naming-convention2.tgz)(@ndn/ndncert@https://ndnts-nightly.ndn.today/ndncert.tgz)(@ndn/ndnsec@https://ndnts-nightly.ndn.today/ndnsec.tgz)(@ndn/nfdmgmt@https://ndnts-nightly.ndn.today/nfdmgmt.tgz)(@ndn/node-transport@https://ndnts-nightly.ndn.today/node-transport.tgz)(@ndn/packet@https://ndnts-nightly.ndn.today/packet.tgz)(@ndn/segmented-object@https://ndnts-nightly.ndn.today/segmented-object.tgz)(@ndn/svs@https://ndnts-nightly.ndn.today/svs.tgz)(@ndn/tlv@https://ndnts-nightly.ndn.today/tlv.tgz)(@ndn/util@https://ndnts-nightly.ndn.today/util.tgz)(@ndn/ws-transport@https://ndnts-nightly.ndn.today/ws-transport.tgz)':
+  '@ucla-irl/ndnts-aux@3.0.2(@ndn/endpoint@https://ndnts-nightly.ndn.today/endpoint.tgz)(@ndn/fw@https://ndnts-nightly.ndn.today/fw.tgz)(@ndn/keychain@https://ndnts-nightly.ndn.today/keychain.tgz)(@ndn/l3face@https://ndnts-nightly.ndn.today/l3face.tgz)(@ndn/naming-convention2@https://ndnts-nightly.ndn.today/naming-convention2.tgz)(@ndn/ndncert@https://ndnts-nightly.ndn.today/ndncert.tgz)(@ndn/ndnsec@https://ndnts-nightly.ndn.today/ndnsec.tgz)(@ndn/nfdmgmt@https://ndnts-nightly.ndn.today/nfdmgmt.tgz)(@ndn/node-transport@https://ndnts-nightly.ndn.today/node-transport.tgz)(@ndn/packet@https://ndnts-nightly.ndn.today/packet.tgz)(@ndn/segmented-object@https://ndnts-nightly.ndn.today/segmented-object.tgz)(@ndn/svs@https://ndnts-nightly.ndn.today/svs.tgz)(@ndn/tlv@https://ndnts-nightly.ndn.today/tlv.tgz)(@ndn/util@https://ndnts-nightly.ndn.today/util.tgz)(@ndn/ws-transport@https://ndnts-nightly.ndn.today/ws-transport.tgz)':
     dependencies:
       '@ndn/endpoint': https://ndnts-nightly.ndn.today/endpoint.tgz
       '@ndn/fw': https://ndnts-nightly.ndn.today/fw.tgz
@@ -1013,7 +1014,7 @@ snapshots:
       eventemitter3: 5.0.1
       jose: 5.2.4
       tslib: 2.6.2
-      type-fest: 4.18.0
+      type-fest: 4.18.2
       uuid: 9.0.1
       wait-your-turn: 1.0.1
       y-protocols: 1.0.6(yjs@13.6.15)
@@ -1061,7 +1062,7 @@ snapshots:
 
   bufferutil@4.0.8:
     dependencies:
-      node-gyp-build: 4.8.0
+      node-gyp-build: 4.8.1
     optional: true
 
   cbor-extract@2.2.0:
@@ -1291,7 +1292,7 @@ snapshots:
       detect-libc: 2.0.3
     optional: true
 
-  node-gyp-build@4.8.0:
+  node-gyp-build@4.8.1:
     optional: true
 
   nodemailer@6.9.13: {}
@@ -1374,7 +1375,7 @@ snapshots:
 
   tslib@2.6.2: {}
 
-  type-fest@4.18.0: {}
+  type-fest@4.18.2: {}
 
   typescript-event-target@1.1.1: {}
 

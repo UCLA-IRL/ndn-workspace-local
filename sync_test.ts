@@ -21,7 +21,7 @@ import { fromHex } from '@ndn/util';
 let DEBUG = false;
 // const UPDATE_INTERVAL = [300, 1000];
 const UPDATE_INTERVAL = [100, 101];
-const MAX_SEQUENCE = 800;
+const MAX_SEQUENCE = 1000;
 const PAYLOAD_LENGTH = 100;
 const LOCAL = true;
 
