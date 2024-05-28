@@ -3,6 +3,7 @@
     "main": "deno run --allow-net --allow-read --allow-write --allow-env --unstable-kv main.ts",
     "sync_test": "deno run --allow-net --allow-read --allow-write --allow-env sync_test.ts",
     "gen-selfsign": "deno run gen-selfsign.ts",
+    "display-priv": "deno run display-priv.ts",
     "speed-responder": "deno run --allow-net --allow-read --allow-write --allow-env --unstable-kv speed_test/responder.ts",
     "speed-retriever": "deno run --allow-net --allow-read --allow-write --allow-env --unstable-kv speed_test/retriever.ts"
   },
