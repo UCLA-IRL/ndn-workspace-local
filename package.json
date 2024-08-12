@@ -24,11 +24,10 @@
     "@ndn/packet": "https://ndnts-nightly.ndn.today/packet.tgz",
     "@ndn/segmented-object": "https://ndnts-nightly.ndn.today/segmented-object.tgz",
     "@ndn/svs": "https://ndnts-nightly.ndn.today/svs.tgz",
-    "@ndn/sync": "https://ndnts-nightly.ndn.today/sync.tgz",
     "@ndn/tlv": "https://ndnts-nightly.ndn.today/tlv.tgz",
     "@ndn/util": "https://ndnts-nightly.ndn.today/util.tgz",
     "@ndn/ws-transport": "https://ndnts-nightly.ndn.today/ws-transport.tgz",
-    "@ucla-irl/ndnts-aux": "^3.0.1",
-    "yjs": "^13.6.15"
+    "@ucla-irl/ndnts-aux": "^3.0.3",
+    "yjs": "^13.6.18"
   }
 }
