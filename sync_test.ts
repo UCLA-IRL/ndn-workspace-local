@@ -1,5 +1,5 @@
-import { load as loadDotenv } from 'https://deno.land/std@0.214.0/dotenv/mod.ts';
-import { sleep } from 'https://deno.land/x/sleep@v1.3.0/mod.ts';
+import { load as loadDotenv } from '@std/dotenv';
+import { sleep } from '@ucla-irl/ndnts-aux/utils';
 import { InMemoryStorage } from '@ucla-irl/ndnts-aux/storage';
 import { Workspace } from '@ucla-irl/ndnts-aux/workspace';
 import { AsyncDisposableStack, base64ToBytes } from '@ucla-irl/ndnts-aux/utils';

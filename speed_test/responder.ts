@@ -86,7 +86,7 @@ const main = async () => {
   const syncInst = await SvSync.create({
     syncPrefix: WORKSPACE_NAME.append('32=sync', '32=alo'),
     signer: digestSigning,
-    steadyTimer: [1000, 10],
+    periodicTimeout: [1000, 10],
   });
   closers.defer(() => syncInst.close());
   syncInst.get(WORKSPACE_NAME.append('node-p')).seqNum = 100;
